@@ -1,0 +1,23 @@
+backtest:
+  start_date: 2010-01-01
+  end_date: 2025-12-31
+  rebalance_freq: quarterly
+  initial_capital: 1000000
+
+data:
+  source: yahoo
+  cache_dir: data_cache
+
+universe:
+  name: nifty100
+
+momentum:
+  lookback_months: 12
+  skip_recent_months: 1
+
+portfolio:
+  top_n: 20
+  weighting: equal
+
+output:
+  directory: output/research

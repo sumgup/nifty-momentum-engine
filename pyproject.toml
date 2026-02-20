@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "nifty-momentum-engine"
+version = "0.1.0"
+description = "Production-grade 12-1 Momentum Engine with CLI and research module"
+authors = ["sumitgup <sumit_4palz@yahoo.com>"]
+packages = [{ include = "momentum_engine", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.0"
+numpy = "^1.26.0"
+yfinance = "^0.2.37"
+pyyaml = "^6.0"
+python-dateutil = "^2.9.0"
+click = "^8.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+black = "^24.0.0"
+ruff = "^0.3.0"
+
+[tool.poetry.scripts]
+momentum = "momentum_engine.cli.main:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,16 @@
+universe:
+  name: nifty100
+
+data:
+  start_date: 2010-01-01
+
+momentum:
+  lookback_months: 12
+  skip_recent_months: 1
+
+portfolio:
+  top_n: 5
+  weighting: equal
+
+output:
+  directory: output/live
