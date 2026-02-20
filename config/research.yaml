@@ -1,15 +1,14 @@
 backtest:
   start_date: 2010-01-01
   end_date: 2025-12-31
-  rebalance_freq: quarterly
   initial_capital: 1000000
-
-data:
-  source: yahoo
-  cache_dir: data_cache
 
 universe:
   name: nifty100
+  file: data/nifty100_constituents.csv
+
+  # name: niftynext50
+  # file: data/ind_niftynext50list.csv
 
 momentum:
   lookback_months: 12

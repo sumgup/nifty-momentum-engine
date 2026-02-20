@@ -1,0 +1,47 @@
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Poetry
+.poetry/
+poetry.lock
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Output / Research Results
+output/
+data_cache/
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+
+# Mypy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

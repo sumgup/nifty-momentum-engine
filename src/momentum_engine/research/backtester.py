@@ -8,25 +8,40 @@ from momentum_engine.data.resampler import MonthlyResampler
 from momentum_engine.signals.momentum_12_1 import Momentum12_1
 from momentum_engine.ranking.cross_sectional_ranker import CrossSectionalRanker
 from momentum_engine.portfolio.equal_weight import EqualWeightPortfolio
+from momentum_engine.universe.csv_universe import CSVUniverse
 
 
 class Backtester:
 
-    def __init__(self, config_path: str):
+    def __init__(self, config_path: str, universe_override: str = None):
         self.config = ConfigLoader(config_path).load()
 
         self.start = pd.to_datetime(self.config["backtest"]["start_date"])
         self.end = pd.to_datetime(self.config["backtest"]["end_date"])
         self.initial_capital = self.config["backtest"]["initial_capital"]
 
-        self.universe = Nifty100Universe.get_tickers()
+        from momentum_engine.universe.csv_universe import CSVUniverse
+
+       
+        if universe_override:
+            universe_file = universe_override
+        else:
+            universe_file = self.config["universe"]["file"]
+
+        # Store universe metadata
+        self.universe_file = universe_file
+        self.universe_name = Path(universe_file).stem
+
+        universe_loader = CSVUniverse(universe_file)
+        self.universe = universe_loader.get_tickers()
 
         self.lookback = self.config["momentum"]["lookback_months"]
         self.skip = self.config["momentum"]["skip_recent_months"]
         self.top_n = self.config["portfolio"]["top_n"]
-
+        
     def run(self) -> pd.DataFrame:
 
+        print(f"Universe size: {len(self.universe)}")
         # -------------------------
         # 1. Fetch & prepare data
         # -------------------------
