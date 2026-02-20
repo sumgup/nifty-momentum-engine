@@ -9,6 +9,7 @@ from momentum_engine.signals.momentum_12_1 import Momentum12_1
 from momentum_engine.ranking.cross_sectional_ranker import CrossSectionalRanker
 from momentum_engine.portfolio.equal_weight import EqualWeightPortfolio
 from momentum_engine.decision.decision_report import DecisionReport
+from momentum_engine.decision.diagnostics import MomentumDiagnostics
 
 
 class LiveMomentumEngine:
@@ -51,5 +52,13 @@ class LiveMomentumEngine:
         date_str = datetime.today().strftime("%Y-%m-%d")
         decision_path = f"{output_dir}/{date_str}_decision.csv"
         decision_df.to_csv(decision_path, index=False)
+
+        # Diagnostics report (reporting-only; does not alter ranking/selection logic)
+        diagnostics = MomentumDiagnostics(
+            selected_tickers=list(weights.keys()),
+            ranked_signal=ranked,
+            output_directory=output_dir,
+        )
+        diagnostics.generate()
 
         return weights, decision_path
