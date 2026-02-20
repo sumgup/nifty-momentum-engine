@@ -1,3 +1,297 @@
+
+
+# Nifty Momentum Engine — Operating Manual
+
+This document explains:
+
+- What commands exist
+- What each command does
+- The correct order to use them
+- How to move from research → live portfolio
+- How to operate this system safely
+
+---
+
+# 1. SYSTEM OVERVIEW
+
+The engine has three primary modes:
+
+1. Backtest Mode → Historical performance testing
+2. Snapshot Mode → Cross-sectional inspection
+3. Live Mode → Portfolio generation for rebalance
+
+Core philosophy:
+
+Research Mode = Laboratory  
+Snapshot Mode = Microscope  
+Live Mode = Execution Engine  
+
+---
+
+# 2. AVAILABLE COMMANDS
+
+## A) Backtest
+
+Runs full historical simulation.
+
+Command:
+
+poetry run momentum backtest
+
+Optional universe override:
+
+poetry run momentum backtest -u nifty100
+poetry run momentum backtest -u n100
+poetry run momentum backtest -u data/custom.csv
+
+What it does:
+- Loads universe
+- Downloads price data
+- Converts to monthly
+- Computes 12–1 momentum
+- Rebalances quarterly
+- Calculates performance metrics
+- Saves results in output/research/
+
+Metrics shown:
+- CAGR
+- Annualized Volatility
+- Sharpe Ratio
+- Max Drawdown
+
+Use this to evaluate strategy quality.
+
+---
+
+## B) Snapshot
+
+Shows current cross-sectional ranking.
+
+Command:
+
+poetry run momentum snapshot -u nifty100
+
+What it does:
+- Loads universe
+- Fetches latest prices
+- Computes trailing returns:
+  - 1M
+  - 3M
+  - 12M
+  - 36M
+  - 60M
+- Sorts by 12M return
+- Prints full ranked universe
+- Saves CSV in output/snapshots/
+
+Use this to:
+- Inspect dispersion
+- See current leadership
+- Validate signal structure
+- Understand momentum regime
+
+---
+
+## C) Live
+
+Generates actual rebalance portfolio.
+
+Command:
+
+poetry run momentum run-live
+
+What it does:
+- Uses config/live.yaml
+- Loads universe
+- Computes 12–1 momentum
+- Selects top N
+- Equal-weights them
+- Saves decision file in output/live/
+
+This does NOT place trades.
+Manual execution required.
+
+---
+
+# 3. CORRECT EXECUTION ORDER (RESEARCH FLOW)
+
+If starting fresh:
+
+Step 1 — Inspect Universe
+Run snapshot:
+
+poetry run momentum snapshot -u nifty100
+
+Confirm:
+- Universe size correct
+- No garbage symbols
+- Momentum distribution reasonable
+
+---
+
+Step 2 — Run Backtest
+
+poetry run momentum backtest -u nifty100
+
+Evaluate:
+- CAGR acceptable?
+- Sharpe > 1?
+- Max drawdown tolerable?
+- Results stable across universes?
+
+---
+
+Step 3 — Parameter Adjustments
+
+Edit config/research.yaml:
+
+- lookback_months
+- skip_recent_months
+- top_n
+- date range
+
+Re-run backtest.
+
+Repeat until satisfied.
+
+---
+
+Step 4 — Stability Check
+
+Change:
+- Universe
+- Date range
+- Top N
+
+Ensure performance doesn’t collapse.
+
+If fragile → strategy not robust.
+
+---
+
+# 4. CORRECT EXECUTION ORDER (LIVE REBALANCE)
+
+When ready to deploy:
+
+Step 1 — Confirm live.yaml parameters
+
+Check:
+- Universe file
+- lookback
+- top_n
+- weighting
+
+---
+
+Step 2 — Run snapshot (optional sanity check)
+
+poetry run momentum snapshot -u nifty100
+
+See what’s currently strong.
+
+---
+
+Step 3 — Generate live portfolio
+
+poetry run momentum run-live
+
+Output:
+- Equal-weight top N stocks
+- File saved in output/live/
+
+---
+
+Step 4 — Compare with current holdings
+
+Manually:
+- Calculate turnover
+- Determine trades
+- Execute through broker
+
+---
+
+# 5. CURRENT FUNCTIONALITIES
+
+✔ Dynamic universe loading via CSV  
+✔ CLI shortcut universes  
+✔ Backtesting engine  
+✔ Performance metrics  
+✔ Snapshot ranking tool  
+✔ Quarterly rebalance logic  
+✔ Equal-weight portfolio  
+✔ Config-driven architecture  
+
+---
+
+# 6. CURRENT LIMITATIONS
+
+⚠ No transaction cost modeling  
+⚠ No slippage modeling  
+⚠ Static universe (survivorship bias present)  
+⚠ No benchmark comparison  
+⚠ No turnover reporting  
+⚠ No risk control overlay  
+⚠ Yahoo Finance dependency  
+
+Backtest results are optimistic.
+
+---
+
+# 7. SAFE USAGE GUIDELINES
+
+Do NOT:
+
+- Trust CAGR blindly
+- Ignore drawdowns
+- Deploy capital without cost modeling
+- Use only one historical window
+
+Always:
+
+- Test multiple universes
+- Test different date ranges
+- Inspect snapshot dispersion
+- Compare against benchmark
+
+---
+
+# 8. FUTURE UPGRADE PRIORITIES
+
+High Priority:
+1. Transaction cost modeling
+2. Turnover calculation
+3. Benchmark comparison
+
+Medium Priority:
+4. Volatility column in snapshot
+5. Absolute momentum filter
+6. Risk metrics expansion
+
+Advanced:
+7. Historical index membership
+8. Data caching
+9. Multi-universe comparison command
+10. Portfolio history tracking
+
+---
+
+# 9. SUMMARY
+
+Research Workflow:
+Snapshot → Backtest → Adjust → Validate → Repeat
+
+Live Workflow:
+Validate → Run-live → Execute → Archive
+
+This engine is currently:
+Advanced research prototype.
+
+Institutional deployment requires additional layers.
+
+---
+
+
+---
 # Nifty Momentum Engine — Project Overview
 
 ## 1. What Is This Project?

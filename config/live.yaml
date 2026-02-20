@@ -9,7 +9,7 @@ momentum:
   skip_recent_months: 1
 
 portfolio:
-  top_n: 5
+  top_n: 20
   weighting: equal
 
 output:
